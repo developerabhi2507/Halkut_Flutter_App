@@ -11,12 +11,40 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen>
+    with SingleTickerProviderStateMixin {
+  int _selectedIndex = 0;
+  TabController? _tabController;
+  // final List<String> _tabs = ['Tab 1', 'Tab 2', 'Tab 3', 'Tab 4'];
+
+  final List<Widget> _tabs = [
+    Text('Home'),
+    Text('Search'),
+    Text('Folder'),
+    Text('Grid'),
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: _tabs.length, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    _tabController!.dispose();
+    super.dispose();
+  }
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+      _tabController!.index = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    final NewOnCinemaModel newOnCinemaModel;
-    int _currentIndex = 0;
-    final List<String> _tabs = ['Tab 1', 'Tab 2', 'Tab 3', 'Tab 4'];
     return DefaultTabController(
         length: _tabs.length,
         child: Scaffold(
@@ -76,180 +104,190 @@ class _HomeScreenState extends State<HomeScreen> {
                 ];
               },
               body: TabBarView(
+                  controller: _tabController,
                   children: _tabs.map((tab) {
-                int index = _tabs.indexOf(tab);
-                return CustomScrollView(
-                  slivers: [
-                    SliverAppBar(
-                      pinned: true,
-                      floating: false,
-                      snap: false,
-                      bottom: PreferredSize(
-                        preferredSize: Size.zero,
-                        child: TabBar(
-                          isScrollable: true,
-                          tabs: const [
-                            Tab(text: 'Featured'),
-                            Tab(text: 'Series'),
-                            Tab(text: 'Films'),
-                            Tab(text: 'Originals'),
-                          ],
-                          indicator: const UnderlineTabIndicator(
-                              borderSide: BorderSide(
-                                  width: 4.0,
-                                  color:
-                                      AppConstants.textButtonBackgroundColor),
-                              insets: EdgeInsets.symmetric(horizontal: 35.0)),
-                          // indicatorColor:
-                          //     AppConstants.textButtonBackgroundColor,
-                          indicatorWeight: 4.33,
-                          labelColor: AppConstants.textButtonBackgroundColor,
-                          unselectedLabelColor: AppConstants.fontColor,
-                          labelStyle: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
+                    int index = _tabs.indexOf(tab);
+                    return CustomScrollView(
+                      slivers: [
+                        SliverAppBar(
+                          pinned: true,
+                          floating: false,
+                          snap: false,
+                          bottom: PreferredSize(
+                            preferredSize: Size.zero,
+                            child: TabBar(
+                              isScrollable: true,
+                              tabs: const [
+                                Tab(text: 'Featured'),
+                                Tab(text: 'Series'),
+                                Tab(text: 'Films'),
+                                Tab(text: 'Originals'),
+                              ],
+                              indicator: const UnderlineTabIndicator(
+                                  borderSide: BorderSide(
+                                      width: 4.0,
+                                      color: AppConstants
+                                          .textButtonBackgroundColor),
+                                  insets:
+                                      EdgeInsets.symmetric(horizontal: 35.0)),
+                              // indicatorColor:
+                              //     AppConstants.textButtonBackgroundColor,
+                              indicatorWeight: 4.33,
+                              labelColor:
+                                  AppConstants.textButtonBackgroundColor,
+                              unselectedLabelColor: AppConstants.fontColor,
+                              labelStyle: const TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                              ),
+                              onTap: (tabIndex) {
+                                setState(() {
+                                  _onItemTapped(_selectedIndex);
+                                });
+                              },
+                            ),
                           ),
-                          onTap: (tabIndex) {
-                            setState(() {
-                              _currentIndex = tabIndex;
-                            });
-                          },
                         ),
-                      ),
-                    ),
-                    SliverToBoxAdapter(
-                      child: Column(
-                        children: [
-                          Container(
-                            margin: const EdgeInsets.only(
-                                top: 16, left: 20, bottom: 16),
-                            child: const Align(
-                                alignment: Alignment.topLeft,
-                                child: Text(
-                                  'Trending this week',
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w700),
-                                )),
+                        SliverToBoxAdapter(
+                          child: Column(
+                            children: [
+                              Container(
+                                margin: const EdgeInsets.only(
+                                    top: 16, left: 20, bottom: 16),
+                                child: const Align(
+                                    alignment: Alignment.topLeft,
+                                    child: Text(
+                                      'Trending this week',
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w700),
+                                    )),
+                              ),
+                              CarouselSlider(
+                                items: TrendingMoviesModel.homeSlide1
+                                    .map((trendingSlide) =>
+                                        TrandingCarouselCard(
+                                            trendingMoviesModel: trendingSlide))
+                                    .toList(),
+                                options: CarouselOptions(
+                                  height: 197,
+                                  viewportFraction: 0.9,
+                                  initialPage: 0,
+                                  enlargeCenterPage: true,
+                                  enlargeStrategy:
+                                      CenterPageEnlargeStrategy.height,
+                                  reverse: false,
+                                  autoPlay: true,
+                                  autoPlayInterval: const Duration(seconds: 3),
+                                  autoPlayAnimationDuration:
+                                      const Duration(milliseconds: 800),
+                                  autoPlayCurve: Curves.fastOutSlowIn,
+                                  onPageChanged: (index, reason) {
+                                    setState(() {
+                                      _onItemTapped(_selectedIndex);
+                                    });
+                                  },
+                                ),
+                              ),
+                              Container(
+                                margin: const EdgeInsets.only(
+                                    top: 16, left: 20, bottom: 16),
+                                child: const Align(
+                                    alignment: Alignment.topLeft,
+                                    child: Text(
+                                      'Popular Movies',
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w700),
+                                    )),
+                              ),
+                              CarouselSlider(
+                                items: PopularMoviesModel.homeSlide2
+                                    .map((popularSlide) => PopularCarouselCard(
+                                        popularMoviesModel: popularSlide))
+                                    .toList(),
+                                options: CarouselOptions(
+                                  viewportFraction: 0.32,
+                                  initialPage: 0,
+                                  enlargeStrategy:
+                                      CenterPageEnlargeStrategy.height,
+                                  reverse: false,
+                                  autoPlay: true,
+                                  autoPlayInterval: const Duration(seconds: 3),
+                                  autoPlayAnimationDuration:
+                                      const Duration(milliseconds: 800),
+                                  autoPlayCurve: Curves.fastOutSlowIn,
+                                  onPageChanged: (index, reason) {
+                                    setState(() {
+                                      _onItemTapped(_selectedIndex);
+                                    });
+                                  },
+                                ),
+                              ),
+                              Container(
+                                margin: const EdgeInsets.only(
+                                    top: 16, left: 20, bottom: 16),
+                                child: const Align(
+                                    alignment: Alignment.topLeft,
+                                    child: Text(
+                                      'New on Cinemas',
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w700),
+                                    )),
+                              ),
+                              CarouselSlider(
+                                items: NewOnCinemaModel.homeSlide3
+                                    .map((newOnCinemaSlide) =>
+                                        NewOnCinemaCarouselCard(
+                                            newOnCinemaModel: newOnCinemaSlide))
+                                    .toList(),
+                                options: CarouselOptions(
+                                  viewportFraction: 0.47,
+                                  initialPage: 0,
+                                  enlargeStrategy:
+                                      CenterPageEnlargeStrategy.height,
+                                  reverse: false,
+                                  autoPlay: true,
+                                  autoPlayInterval: const Duration(seconds: 3),
+                                  autoPlayAnimationDuration:
+                                      const Duration(milliseconds: 800),
+                                  autoPlayCurve: Curves.fastOutSlowIn,
+                                  onPageChanged: (index, reason) {
+                                    setState(() {
+                                      _onItemTapped(_selectedIndex);
+                                    });
+                                  },
+                                ),
+                              ),
+                            ],
                           ),
-                          CarouselSlider(
-                            items: TrendingMoviesModel.homeSlide1
-                                .map((trendingSlide) => TrandingCarouselCard(
-                                    trendingMoviesModel: trendingSlide))
-                                .toList(),
-                            options: CarouselOptions(
-                              height: 197,
-                              viewportFraction: 0.9,
-                              initialPage: 0,
-                              enlargeCenterPage: true,
-                              enlargeStrategy: CenterPageEnlargeStrategy.height,
-                              reverse: false,
-                              autoPlay: true,
-                              autoPlayInterval: const Duration(seconds: 3),
-                              autoPlayAnimationDuration:
-                                  const Duration(milliseconds: 800),
-                              autoPlayCurve: Curves.fastOutSlowIn,
-                              onPageChanged: (index, reason) {
-                                setState(() {
-                                  _currentIndex = index;
-                                });
-                              },
-                            ),
-                          ),
-                          Container(
-                            margin: const EdgeInsets.only(
-                                top: 16, left: 20, bottom: 16),
-                            child: const Align(
-                                alignment: Alignment.topLeft,
-                                child: Text(
-                                  'Popular Movies',
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w700),
-                                )),
-                          ),
-                          CarouselSlider(
-                            items: PopularMoviesModel.homeSlide2
-                                .map((popularSlide) => PopularCarouselCard(
-                                    popularMoviesModel: popularSlide))
-                                .toList(),
-                            options: CarouselOptions(
-                              viewportFraction: 0.32,
-                              initialPage: 0,
-                              enlargeStrategy: CenterPageEnlargeStrategy.height,
-                              reverse: false,
-                              autoPlay: true,
-                              autoPlayInterval: const Duration(seconds: 3),
-                              autoPlayAnimationDuration:
-                                  const Duration(milliseconds: 800),
-                              autoPlayCurve: Curves.fastOutSlowIn,
-                              onPageChanged: (index, reason) {
-                                setState(() {
-                                  _currentIndex = index;
-                                });
-                              },
-                            ),
-                          ),
-                          Container(
-                            margin: const EdgeInsets.only(
-                                top: 16, left: 20, bottom: 16),
-                            child: const Align(
-                                alignment: Alignment.topLeft,
-                                child: Text(
-                                  'New on Cinemas',
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w700),
-                                )),
-                          ),
-                          CarouselSlider(
-                            items: NewOnCinemaModel.homeSlide3
-                                .map((newOnCinemaSlide) =>
-                                    NewOnCinemaCarouselCard(
-                                        newOnCinemaModel: newOnCinemaSlide))
-                                .toList(),
-                            options: CarouselOptions(
-                              viewportFraction: 0.47,
-                              initialPage: 0,
-                              enlargeStrategy: CenterPageEnlargeStrategy.height,
-                              reverse: false,
-                              autoPlay: true,
-                              autoPlayInterval: const Duration(seconds: 3),
-                              autoPlayAnimationDuration:
-                                  const Duration(milliseconds: 800),
-                              autoPlayCurve: Curves.fastOutSlowIn,
-                              onPageChanged: (index, reason) {
-                                setState(() {
-                                  _currentIndex = index;
-                                });
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
-                );
-              }).toList())),
+                        )
+                      ],
+                    );
+                  }).toList())),
           bottomNavigationBar: BottomNavigationBar(
             selectedItemColor: AppConstants.textButtonBackgroundColor,
-            items: const [
+            unselectedItemColor: AppConstants.fontColor,
+            currentIndex: _selectedIndex,
+            onTap: _onItemTapped,
+            items: const <BottomNavigationBarItem>[
               BottomNavigationBarItem(
                   icon: Icon(Icons.home),
                   label: 'Home',
                   backgroundColor: AppConstants.textButtonColor),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.search),
-                  label: 'Search',
-                  backgroundColor: AppConstants.textButtonColor),
+                icon: Icon(Icons.search_outlined),
+                label: 'Search',
+              ),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.folder),
-                  label: 'Files',
-                  backgroundColor: AppConstants.textButtonColor),
+                icon: Icon(Icons.folder_outlined),
+                label: 'Folder',
+              ),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.apps),
-                  label: 'Apps',
-                  backgroundColor: AppConstants.textButtonColor),
+                icon: Icon(Icons.apps_outlined),
+                label: 'Grid',
+              ),
             ],
           ),
         ));
