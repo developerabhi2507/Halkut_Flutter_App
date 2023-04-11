@@ -24,72 +24,83 @@ class OnboardingScreen extends StatelessWidget {
         // title: AppConstants.title,
         centerTitle: true,
       ),
-      body: Center(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              // margin: EdgeInsets.only(
-              //   top: MediaQuery.of(context).size.height -
-              //       (MediaQuery.of(context).size.height - 180),
-              // ),
-              height: MediaQuery.of(context).size.height -
-                  (MediaQuery.of(context).size.height - 240),
-              width: MediaQuery.of(context).size.width -
-                  (MediaQuery.of(context).size.width - 240),
-              decoration: const BoxDecoration(
-                  image: DecorationImage(
-                      image: AssetImage(
-                          'assets/images/onBoarding_background.png'))),
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height -
-                  (MediaQuery.of(context).size.height - 48),
-            ),
-            const Text(
-              'Welcome to Halkut',
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height -
-                  (MediaQuery.of(context).size.height - 8),
-            ),
-            Text(
-                'Free movie streaming all your needs\n everytime and everywhere.',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w400,
-                    color: AppConstants.fontColor.withOpacity(0.6))),
-            SizedBox(
-              height: MediaQuery.of(context).size.height -
-                  (MediaQuery.of(context).size.height - 147),
-            ),
-            SizedBox(
+      body: SingleChildScrollView(
+        physics: AlwaysScrollableScrollPhysics(),
+        child: Center(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                height: MediaQuery.of(context).size.height -
+                    (MediaQuery.of(context).size.height - 80),
+              ),
+              Container(
+                // margin: EdgeInsets.only(
+                //   top: MediaQuery.of(context).size.height -
+                //       (MediaQuery.of(context).size.height - 180),
+                // ),
+                height: MediaQuery.of(context).size.height -
+                    (MediaQuery.of(context).size.height - 240),
                 width: MediaQuery.of(context).size.width -
-                    (MediaQuery.of(context).size.width - 335),
-                child: TextButton(
-                    onPressed: () {
-                      Get.to(const RegisterScreen());
-                    },
-                    child: const Text('Watch Movie'))),
-            SizedBox(
-              height: MediaQuery.of(context).size.height -
-                  (MediaQuery.of(context).size.height - 24),
-            ),
-            TextButton(
-                style: const ButtonStyle(
-                    backgroundColor:
-                        MaterialStatePropertyAll(Colors.transparent),
-                    foregroundColor:
-                        MaterialStatePropertyAll(AppConstants.fontColor)),
-                onPressed: () => Get.to(const LoginScreen()),
-                child: const Text(
-                  'Sign In',
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
-                ))
-          ],
+                    (MediaQuery.of(context).size.width - 240),
+                decoration: const BoxDecoration(
+                    image: DecorationImage(
+                        image: AssetImage(
+                            'assets/images/onBoarding_background.png'))),
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height -
+                    (MediaQuery.of(context).size.height - 48),
+              ),
+              const Text(
+                'Welcome to Halkut',
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height -
+                    (MediaQuery.of(context).size.height - 8),
+              ),
+              Text(
+                  'Free movie streaming all your needs\n everytime and everywhere.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
+                      color: AppConstants.fontColor.withOpacity(0.6))),
+              SizedBox(
+                height: MediaQuery.of(context).size.height -
+                    (MediaQuery.of(context).size.height - 147),
+              ),
+              SizedBox(
+                  width: MediaQuery.of(context).size.width -
+                      (MediaQuery.of(context).size.width - 335),
+                  child: TextButton(
+                      onPressed: () {
+                        Get.to(const RegisterScreen());
+                      },
+                      child: const Text('Watch Movie'))),
+              SizedBox(
+                height: MediaQuery.of(context).size.height -
+                    (MediaQuery.of(context).size.height - 24),
+              ),
+              TextButton(
+                  style: const ButtonStyle(
+                      backgroundColor:
+                          MaterialStatePropertyAll(Colors.transparent),
+                      foregroundColor:
+                          MaterialStatePropertyAll(AppConstants.fontColor)),
+                  onPressed: () => Get.to(const LoginScreen()),
+                  child: const Text(
+                    'Sign In',
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+                  )),
+              SizedBox(
+                height: MediaQuery.of(context).size.height -
+                    (MediaQuery.of(context).size.height - 15),
+              ),
+            ],
+          ),
         ),
       ),
     );

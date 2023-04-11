@@ -14,5 +14,6 @@ abstract class AppConstants {
   static const fbIconColor = Color(0xFF3B5998);
   static const homeSlide1Color = Color(0xFF25272A);
   static const playButtonColor = Color(0xFF202123);
+  static const editProfileCameraIconBackgroundColor = Color(0xFF202123);
   static Widget title = const Text('Halkut');
 }

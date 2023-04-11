@@ -86,7 +86,8 @@ class PopularMoviesModel extends Equatable {
         image: 'assets/images/popular_movies7.png',
         title: "Parasite",
         resolution: 'HD',
-        description: 'When the world is under attack from creatures who hunt their human prey by sound, a teenager who lost her hearing at 13, and her family, seek safety in a remote refuge. However, they discover a cult who are eager to exploit her heightened senses.'),
+        description:
+            'When the world is under attack from creatures who hunt their human prey by sound, a teenager who lost her hearing at 13, and her family, seek safety in a remote refuge. However, they discover a cult who are eager to exploit her heightened senses.'),
   ];
 
   @override
@@ -178,6 +179,60 @@ class MyListModel extends Equatable {
         resolution: 'HD',
         year: '2014',
         age: '13+'),
+  ];
+
+  @override
+  bool get stringify => false;
+}
+
+class MayBeYouLikes extends Equatable {
+  const MayBeYouLikes({
+    required this.image,
+  });
+
+  final String image;
+  @override
+  List<Object> get props => [image];
+
+  static List<MayBeYouLikes> searchList1 = [
+    const MayBeYouLikes(
+      image: 'assets/images/maybe_you_likes1.png',
+    ),
+    const MayBeYouLikes(
+      image: 'assets/images/maybe_you_likes2.png',
+    ),
+  ];
+
+  @override
+  bool get stringify => false;
+}
+
+class SearchResult extends Equatable {
+  const SearchResult({
+    required this.image,
+    required this.title,
+    required this.description,
+  });
+
+  final String image;
+  final String title;
+  final String description;
+  @override
+  List<Object> get props => [image, title, description];
+
+  static List<SearchResult> searchResult1 = [
+    const SearchResult(
+        image: 'assets/images/search_result1.png',
+        title: 'Maze Runner - Guide to T…',
+        description: 'a hit man wanting to go straight…'),
+    const SearchResult(
+        image: 'assets/images/search_result2.png',
+        title: 'Maze Runner - Scorch Tri…',
+        description: '2019 American coming-of-age…'),
+    const SearchResult(
+        image: 'assets/images/search_result3.png',
+        title: 'Maze Runner - Death Cure',
+        description: 'a hit man wanting to go straight…'),
   ];
 
   @override

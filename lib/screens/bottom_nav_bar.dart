@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:halkut_demo1/models/home_screen_model.dart';
 import 'package:halkut_demo1/screens/more_screen.dart';
 import 'package:halkut_demo1/screens/my_list_screen.dart';
 
 import '../constants/constants.dart';
 import 'home_screen.dart';
-import 'search_results_screen.dart';
 import 'search_screen.dart';
 
 class BottomNavBar extends StatefulWidget {
@@ -46,7 +44,11 @@ class _BottomNavBarState extends State<BottomNavBar> {
               break;
             case 3:
               // Navigate to folder screen
-              Get.to(MoreScreen(backgroundImage: 'assets/images/more_background.png',profileImage: 'assets/images/profile_pic.png',username: 'Kitani Sarasvati',));
+              Get.to(MoreScreen(
+                backgroundImage: 'assets/images/more_background.png',
+                profileImage: 'assets/images/profile_pic.png',
+                username: 'Kitani Sarasvati',
+              ));
               break;
           }
         });

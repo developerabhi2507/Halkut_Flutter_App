@@ -66,74 +66,96 @@ class PopularMovies extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-          padding: const EdgeInsets.only(left: 20, right: 20),
-          height: MediaQuery.of(context).size.height -
-              (MediaQuery.of(context).size.height - 256),
-          child: Stack(
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(4),
-                child: Container(
-                  padding: const EdgeInsets.only(bottom: 4),
-                  width: MediaQuery.of(context).size.width -
-                      (MediaQuery.of(context).size.width - 160),
-                  height: MediaQuery.of(context).size.height -
-                      (MediaQuery.of(context).size.height - 214),
-                  child: GestureDetector(
-                      onTap: () => Get.to(VideoDetailScreen(
+    return Container(
+      padding: const EdgeInsets.only(
+        left: 20,
+        right: 20,
+      ),
+      height: MediaQuery.of(context).size.height -
+          (MediaQuery.of(context).size.height - 276),
+      width: MediaQuery.of(context).size.width -
+          (MediaQuery.of(context).size.width - 160),
+      child: SingleChildScrollView(
+        physics: const AlwaysScrollableScrollPhysics(),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(4),
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width -
+                    (MediaQuery.of(context).size.width - 160),
+                height: MediaQuery.of(context).size.height -
+                    (MediaQuery.of(context).size.height - 214),
+                child: Stack(children: [
+                  InkWell(
+                    onTap: () {
+                      Get.to(VideoDetailScreen(
                           imagePath: popularMoviesModel.image,
                           title: popularMoviesModel.title,
                           resolution: popularMoviesModel.resolution,
-                          description: popularMoviesModel.description,)),
-                      child: Image.asset(popularMoviesModel.image,
-                          fit: BoxFit.fill)),
-                ),
+                          description: popularMoviesModel.description));
+                    },
+                    child: Ink(
+                      child: Image.asset(
+                        popularMoviesModel.image,
+                        fit: BoxFit.cover,
+                        height: MediaQuery.of(context).size.height -
+                            (MediaQuery.of(context).size.height - 214),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 0.0,
+                    left: 0.0,
+                    right: 0.0,
+                    child: Container(
+                      margin:
+                          const EdgeInsets.only(left: 4, bottom: 4, right: 115),
+                      padding: const EdgeInsets.fromLTRB(4, 2, 3, 2),
+                      color: AppConstants.textButtonBackgroundColor,
+                      child: Text(
+                        popularMoviesModel.resolution,
+                        style: const TextStyle(
+                            color: AppConstants.iconColor,
+                            fontSize: 10,
+                            fontWeight: FontWeight.w700),
+                      ),
+                    ),
+                  ),
+                ]),
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Container(
-                    margin: const EdgeInsets.only(left: 8, bottom: 8),
-                    padding: const EdgeInsets.fromLTRB(4, 2, 3, 2),
-                    color: AppConstants.textButtonBackgroundColor,
-                    child: Text(
-                      popularMoviesModel.resolution,
-                      style: const TextStyle(
-                          color: AppConstants.iconColor,
-                          fontSize: 10,
-                          fontWeight: FontWeight.w700),
-                    ),
-                  ),
-                  Text(
-                    popularMoviesModel.title,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 4, right: 2),
-                    child: Text(
-                      popularMoviesModel.description,
-                      overflow: TextOverflow.clip,
-                      maxLines: 2,
-                      style: const TextStyle(
-                          fontSize: 10, fontWeight: FontWeight.w400),
-                    ),
-                  ),
-                ],
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height -
+                  (MediaQuery.of(context).size.height - 8),
+            ),
+            Text(
+              popularMoviesModel.title,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 12,
+                fontWeight: FontWeight.w400,
               ),
-            ],
-          ),
-        )
-      ],
+            ),
+            Padding(
+              padding: const EdgeInsets.only(
+                top: 4,
+                right: 2,
+              ),
+              child: Text(
+                popularMoviesModel.description,
+                overflow: TextOverflow.clip,
+                maxLines: 2,
+                style: TextStyle(
+                    fontSize: 10,
+                    fontWeight: FontWeight.w400,
+                    color: AppConstants.fontColor.withOpacity(0.6)),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
